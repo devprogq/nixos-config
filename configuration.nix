@@ -6,17 +6,44 @@
     ./hardware-configuration.nix
   ];
 
+  # Configuración del bootloader usando GRUB
+  boot.loader.grub = {
+    enable = true;
+    device = "/dev/sda"; # Define el disco en el que se instalará GRUB.
+    useOSProber = true;  # Habilita la detección de otros sistemas operativos.
+  };
+
   # Configuración de la red.
   networking = {
     hostName = "sanctuary"; # Definimos el hostname, el nombre único que identifica a la máquina en la red.
     networkmanager.enable = true; # Habilita NetworkManager para gestionar las conexiones de red.
   };
 
-  # Configuración del bootloader usando GRUB
-  boot.loader.grub = {
+  # Habilita openGL
+  hardware.opengl = {
     enable = true;
-    device = "/dev/sda"; # Define el disco en el que se instalará GRUB.
-    useOSProber = true;  # Habilita la detección de otros sistemas operativos.
+  };
+
+  # Configuración del sistema gráfico con X11 y GNOME
+  services.xserver = {
+    enable = true; # Habilita el sistema de ventanas X11.
+    videoDrivers = ["nvidia"]; # Indica que quieres usar el driver de NVIDIA
+    displayManager.gdm.enable = true; # Habilita GDM como gestor de sesiones.
+    desktopManager.gnome.enable = true; # Habilita GNOME como entorno de escritorio.
+    xkb = {
+      layout = "us,es"; # Configura el teclado en inglés (US) y español.
+      variant = ""; # No hay variantes específicas para el layout en español e inglés (US).
+      options = "grp:win_space_toggle"; # Alterna entre los layouts usando Win+Space.
+    };
+  };
+  
+  hardware.nvidia = {
+    modesetting.enable = true; # Modesetting es obligatorio para que funcione el driver
+    # powerManagement.enable = false; # Activa el powerManagement si cuando la abris de suspension se corrompe los graficos
+    powerManagement.finegrained = false; # Apaga los ventiladores cuando no tiene mucho uso (70º +)
+    open = false; # el modulo kernel NVidia open source, no confundir con nouveau, experimental y con algunas placas especificas. revisar https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
+    nvidiaSettings = true; # El menu de configuracion de NVidia
+    package = config.boot.kernelPackages.nvidiaPackages.production; # Version de los drivers que instala el paquete, production instala 550
   };
 
   # Configuración de localización e idioma
@@ -33,44 +60,7 @@
     LC_TELEPHONE = "es_AR.UTF-8";
     LC_TIME = "es_AR.UTF-8";
   };
-  
-  # Habilita openGL
-  hardware.opengl = {
-    enable = true;
-  };
-
-  # Configuración del sistema gráfico con X11 y GNOME
-  services.xserver = {
-    enable = true; # Habilita el sistema de ventanas X11.
-    videoDrivers = ["nvidia"]; # Indica que queres usar el driver de NVIDIA
-    displayManager.gdm.enable = true; # Habilita GDM como gestor de sesiones.
-    desktopManager.gnome.enable = true; # Habilita GNOME como entorno de escritorio.
-    xkb = {
-      layout = "us,es"; # Configura el teclado en inglés (US) y español.
-      variant = ""; # No hay variantes específicas para el layout en español e inglés (US).
-      options = "grp:win_space_toggle"; # Alterna entre los layouts usando Win+Space.
-    };
-  };
-  
-  # Asegurarse de tener software libre activado para instalar los siguientes paquetes: nvidia-x11, nvidia-settings, nvidia-persistenced. https://nixos.wiki/wiki/Nvidia
-  hardware.nvidia = {
-    modesetting.enable = true; # Modesetting es obligatorio para que funcione el driver
-    # powerManagement.enable = false; # Activa el powerManagement si cuando la abris de suspension se corrompe los graficos
-    powerManagement.finegrained = false; # Apaga los ventiladores cuando no tiene mucho uso (70º +) solo funciona en turing o mayor
-    open = false; # el modulo kernel NVidia open source, no confundir con nouveau, experimental y con algunas placas especificas. revisar https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
-    nvidiaSettings = true; # El menu de configuracion de NVidia
-    package = config.boot.kernelPackages.nvidiaPackages.production; # Version de los drivers que instala el paquete, production instala 550
-  };
-
   console.keyMap = "es"; # Configura el teclado de la consola en español.
-
-  # Configuración de Bluetooth
-  hardware.bluetooth = {
-    enable = true; # Habilita el servicio Bluetooth.
-  };
-
-  # Habilita CUPS para imprimir documentos.
-  services.printing.enable = true;
 
   # Configuración de sonido usando PipeWire
   hardware.pulseaudio.enable = false; # Desactiva PulseAudio si estás usando PipeWire.
@@ -81,6 +71,9 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
+  # Configuración de Bluetooth
+  hardware.bluetooth.enable = true;
 
   # Configuración de un usuario normal
   users.users.gabyy = {
@@ -114,6 +107,8 @@
     eza
     wget
     postman
+    # Font
+    iosevka
     # Plugins for Oh My Zsh
     zsh-autosuggestions
     zsh-syntax-highlighting
@@ -124,6 +119,9 @@
     discord
   ];
 
+  # Habilita CUPS para imprimir documentos.
+  services.printing.enable = true;
+
   # Habilita Neovim
   programs.neovim.enable = true;
   
@@ -131,6 +129,7 @@
   programs.zsh = {
     enable = true; # Habilita Zsh.
     ohMyZsh.enable = true; # Habilita Oh My Zsh.
+    ohMyZsh.theme = "kardan";
     autosuggestions.enable = true; # Habilita autosuggestions.
     syntaxHighlighting.enable = true; # Habilita syntax highlighting.
   };
@@ -140,4 +139,3 @@
 
   system.stateVersion = "24.05"; # Versión de NixOS
 }
-

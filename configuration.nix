@@ -131,6 +131,7 @@
   programs.zsh = {
     enable = true; # Habilita Zsh.
     ohMyZsh.enable = true; # Habilita Oh My Zsh.
+    ohMyZsh.theme = "kardan"; # El tema para Oh My Zsh.
     autosuggestions.enable = true; # Habilita autosuggestions.
     syntaxHighlighting.enable = true; # Habilita syntax highlighting.
   };

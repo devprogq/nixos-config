@@ -63,7 +63,7 @@
   console.keyMap = "es"; # Configura el teclado de la consola en español.
 
   # Configuración de sonido usando PipeWire
-  hardware.pulseaudio.enable = false; # Desactiva PulseAudio si estás usando PipeWire.
+  sound.enable = true;
   security.rtkit.enable = true; # Habilita rtkit para gestión de prioridades en procesos multimedia.
   services.pipewire = {
     enable = true;
@@ -100,13 +100,11 @@
     ripgrep
     fd
     git
-    warp-terminal
     go
     oh-my-zsh
     neofetch
     eza
     wget
-    postman
     # Font
     iosevka
     # Plugins for Oh My Zsh
@@ -129,11 +127,7 @@
   programs.zsh = {
     enable = true; # Habilita Zsh.
     ohMyZsh.enable = true; # Habilita Oh My Zsh.
-<<<<<<< HEAD
-    ohMyZsh.theme = "kardan";
-=======
     ohMyZsh.theme = "kardan"; # El tema para Oh My Zsh.
->>>>>>> 5ded2ff156d8909add9e00552fbb7f08d15ffb1e
     autosuggestions.enable = true; # Habilita autosuggestions.
     syntaxHighlighting.enable = true; # Habilita syntax highlighting.
   };

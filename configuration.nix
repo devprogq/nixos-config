@@ -9,7 +9,9 @@
   # Configuración del bootloader usando GRUB
   boot.loader.grub = {
     enable = true;
-    device = "/dev/sda"; # Define el disco en el que se instalará GRUB.
+    device = "nodev"; # Define que GRUB no se instale en ningun disco (Sistemas EFI).
+    efiInstallAsRemovable = true; # Instala la version EFI de GRUB.
+    efiSupport = true; # Añade las dependencias necesarias para el soporte de EFI de GRUB.
     useOSProber = true;  # Habilita la detección de otros sistemas operativos.
   };
 
@@ -64,6 +66,7 @@
 
   # Configuración de sonido usando PipeWire
   sound.enable = true;
+  hardware.pulseaudio.enable = false; # Desabilita pulseaudio en caso de estar activado
   security.rtkit.enable = true; # Habilita rtkit para gestión de prioridades en procesos multimedia.
   services.pipewire = {
     enable = true;
@@ -104,9 +107,6 @@
     oh-my-zsh
     neofetch
     eza
-    wget
-    # Font
-    iosevka
     # Plugins for Oh My Zsh
     zsh-autosuggestions
     zsh-syntax-highlighting
@@ -115,6 +115,13 @@
     obsidian
     steam
     discord
+  ];
+
+  # Instalacion de fuentes
+  fonts.packages = with pkgs;
+  [
+    iosevka
+    fira-code
   ];
 
   # Habilita CUPS para imprimir documentos.

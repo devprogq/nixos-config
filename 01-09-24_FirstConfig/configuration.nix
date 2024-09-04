@@ -9,9 +9,11 @@
   # Configuración del bootloader usando GRUB
   boot.loader.grub = {
     enable = true;
-    device = "nodev"; # Define que GRUB no se instale en ningun disco (Sistemas EFI).
-    efiInstallAsRemovable = true; # Instala la version EFI de GRUB.
-    efiSupport = true; # Añade las dependencias necesarias para el soporte de EFI de GRUB.
+    # copyKernels = true;
+    efiInstallAsRemovable = true;
+    efiSupport = true;
+    # device = "dev/sda"  # Define el disco en el que se instalará GRUB.
+    device = "nodev"; # Define que no se instale en ningun disco (EFI system)
     useOSProber = true;  # Habilita la detección de otros sistemas operativos.
   };
 
@@ -65,8 +67,7 @@
   console.keyMap = "es"; # Configura el teclado de la consola en español.
 
   # Configuración de sonido usando PipeWire
-  sound.enable = true;
-  hardware.pulseaudio.enable = false; # Desabilita pulseaudio en caso de estar activado
+  hardware.pulseaudio.enable = false; # Desactiva pulseaudio para usar pipewire
   security.rtkit.enable = true; # Habilita rtkit para gestión de prioridades en procesos multimedia.
   services.pipewire = {
     enable = true;
@@ -107,6 +108,7 @@
     oh-my-zsh
     neofetch
     eza
+    kitty
     # Plugins for Oh My Zsh
     zsh-autosuggestions
     zsh-syntax-highlighting
@@ -117,11 +119,10 @@
     discord
   ];
 
-  # Instalacion de fuentes
+  # Instalar fuentes
   fonts.packages = with pkgs;
   [
-    iosevka
-    fira-code
+    (nerdfonts.override { fonts = [ "FiraCode" "IosevkaTerm" "JetBrainsMono" ]; })
   ];
 
   # Habilita CUPS para imprimir documentos.

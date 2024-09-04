@@ -6,5 +6,5 @@ La configuracion principal tiene GNOME, lo que mas acostumbrado estoy, y ahora e
 
 Cosas por hacer:
 - Modularizar con home-manager y flakes la configuración de GNOME
-- Terminar la configuración de Hyprland (ya esta completa, pero en la VM no la puedo hacer andar)
+- Terminar la configuración de Hyprland
 - Aprender a configurar el entorno (esteticamente) desde la configuración

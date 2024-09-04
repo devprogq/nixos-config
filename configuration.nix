@@ -22,7 +22,7 @@
   };
 
   # Habilita openGL
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
   };
 
